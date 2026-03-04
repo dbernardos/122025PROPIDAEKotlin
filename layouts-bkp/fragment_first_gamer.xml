@@ -4,109 +4,100 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#FFF3E0"
-    tools:context=".FirstFragment">
+    android:background="#121212"
+    tools:context=".MainActivity">
 
-    <!-- 1. CABEÇALHO (20% da tela) -->
-    <!-- Laranja escuro industrial -->
+    <!-- 1. CABEÇALHO (20% da tela ou altura fixa) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:background="#E65100"
-        android:elevation="4dp">
+        android:background="#1E1E1E">
 
         <TextView
             android:id="@+id/tvAppName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="GAME ZONE"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:textColor="#00FF00"
             android:fontFamily="sans-serif-black"
             android:letterSpacing="0.1"
-            android:shadowColor="#BF360C"
+            android:shadowColor="#000000"
             android:shadowDx="2"
             android:shadowDy="2"
-            android:shadowRadius="4"
-            android:text="@string/nome_evento"
-            android:textAlignment="center"
-            android:textColor="#FFFFFF"
-            android:textSize="32sp"
-            android:textStyle="bold" />
+            android:shadowRadius="4" />
     </LinearLayout>
 
     <!-- 2. CONTEÚDO PRINCIPAL (60% da tela) -->
-    <!-- Laranja vibrante para destaque -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="20dp"
-        android:background="#FF9800">
+        android:padding="20dp">
 
-        <!-- Texto Chamativo com cor escura para contraste -->
+        <!-- Texto Chamativo -->
         <TextView
-            android:id="@+id/textoLidoTextView"
-            android:layout_width="221dp"
+            android:id="@+id/tvGamerText"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp"
-            android:fontFamily="sans-serif-medium"
-            android:textAlignment="center"
-            android:textColor="#2E1B00"
+            android:text="DOMINE O JOGO.\nSUPERE SEUS LIMITES."
             android:textSize="24sp"
-            android:textStyle="bold" />
+            android:textColor="#FFFFFF"
+            android:textAlignment="center"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginBottom="40dp"/>
 
-        <!-- Botão com contraste forte -->
+        <!-- Botão Gamer -->
         <Button
             android:id="@+id/lerQRCodeButton"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:backgroundTint="#5D4037"
-            android:elevation="10dp"
+            android:text="JOGAR AGORA"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:backgroundTint="#00FF00"
             android:fontFamily="sans-serif-black"
-            android:padding="15dp"
-            android:stateListAnimator="@null"
-            android:text="@string/txtJogarQuiz"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp" />
+            android:elevation="10dp"
+            android:padding="15dp"/>
 
     </LinearLayout>
 
     <!-- 3. RODAPÉ (20% da tela) -->
-    <!-- Mesmo tom escuro do cabeçalho para equilíbrio visual -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:background="#E65100"
+        android:background="#1E1E1E"
         android:orientation="horizontal">
 
-        <!-- Logos dos Patrocinadores com filtro branco para harmonia -->
+        <!-- Logos dos Patrocinadores -->
+        <!-- Substitua 'ic_launcher' pelas suas imagens de logo reais -->
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/ic_launcher_foreground"
             android:layout_margin="10dp"
-            android:contentDescription="Logo 1"
-            android:alpha="0.9"/>
+            android:contentDescription="Logo 1"/>
 
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/ic_launcher_foreground"
             android:layout_margin="10dp"
-            android:contentDescription="Logo 2"
-            android:alpha="0.9"/>
+            android:contentDescription="Logo 2"/>
 
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/ic_launcher_foreground"
             android:layout_margin="10dp"
-            android:contentDescription="Logo 3"
-            android:alpha="0.9"/>
+            android:contentDescription="Logo 3"/>
 
     </LinearLayout>
 

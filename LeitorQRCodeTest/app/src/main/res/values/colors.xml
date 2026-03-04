@@ -2,4 +2,21 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <!-- Fundo principal (Cinza Azulado Escuro) -->
+    <color name="dark_metallic">#1A2029</color>
+
+    <!-- Cor do Card Central (Cinza um pouco mais claro) -->
+    <color name="card_surface">#262E3A</color>
+
+    <!-- Cor de destaque (Laranja Segurança Industrial) -->
+    <color name="accent_orange">#FF6B00</color>
+
+    <!-- Texto Principal (Branco Gelo) -->
+    <color name="text_primary">#F0F2F5</color>
+
+    <!-- Texto Secundário (Cinza Claro) -->
+    <color name="text_secondary">#9CA3AF</color>
+
+    <!-- Fundo do Rodapé -->
+    <color name="footer_bg">#13171F</color>
 </resources>

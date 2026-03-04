@@ -44,5 +44,6 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
     <string name="textoLabel">Valor lido:</string>
-    <string name="nome_evento">Sistema de Eventos Academicos</string>
+    <string name="nome_evento">XXIX COLÓQUIO DE USINAGEM</string>
+    <string name="txtJogarQuiz">Responder ao Quiz...</string>
 </resources>
