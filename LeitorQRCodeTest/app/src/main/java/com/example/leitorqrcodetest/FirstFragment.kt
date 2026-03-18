@@ -15,6 +15,10 @@ import androidx.fragment.app.Fragment
 import com.example.leitorqrcodetest.databinding.FragmentFirstBinding
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.*
+import androidx.navigation.fragment.findNavController
+
+
+import android.widget.Button
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -30,22 +34,6 @@ class FirstFragment : Fragment() {
     // Scanner contínuo
     private lateinit var barcodeView: DecoratedBarcodeView
     private var lastText: String? = null
-
-    /*// Register the launcher and result handler
-    private val barcodeLauncher = registerForActivityResult<ScanOptions?, ScanIntentResult?>(
-        ScanContract(),
-        ActivityResultCallback { result: ScanIntentResult? ->
-            if (result!!.getContents() == null) {
-                Toast.makeText(requireContext(), "Cancelled", Toast.LENGTH_LONG).show()
-            } else {
-                Toast.makeText(
-                    requireContext(),
-                    "Scanned: " + result.getContents(),
-                    Toast.LENGTH_LONG
-                ).show()
-                binding.textoLidoTextView.text = result.contents
-            }
-        })*/
 
     // Scanner em nova tela
     private val barcodeLauncher =
@@ -94,14 +82,28 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.lerQRCodeButton.setOnClickListener {
-            abrirScannerTelaCheia()
+        val btnIrParaFragmento = view.findViewById<Button>(R.id.lerQRCodeButton)
+
+        /*btnIrParaFragmento.setOnClickListener {
+            val novoFragmento = SecondFragment()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, novoFragmento)
+                .addToBackStack(null) // Permite voltar com o botão "Voltar"
+                .commit()
         }
         //binding.lerQRCodeButton.setOnClickListener {
         //    onButtonClick()
-        //}
+        //}*/
+
+        btnIrParaFragmento.setOnClickListener {
+            //findNavController().navigate(R.id.action_firstFragment_to_secondFragment)
+            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+        }
     }
 
+    private fun secondFragment() {
+
+    }
     private fun configurarScanner() {
 
         barcodeView = binding.barcodeView
