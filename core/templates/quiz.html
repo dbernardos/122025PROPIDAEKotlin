@@ -1,0 +1,636 @@
+{% extends 'global/base.html' %}
+{% load static %}
+
+{% block title %}Desafios Técnicos - XXIX Colóquio de Usinagem{% endblock %}
+
+{% block extra_css %}
+<style>
+    .quiz-container {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .challenge-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+
+    .challenge-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .challenge-header {
+        background: linear-gradient(135deg, #1b5e3a 0%, #8cc63f 100%);
+        color: white;
+        padding: 1.5rem;
+        position: relative;
+    }
+
+    .challenge-number {
+        font-size: 3rem;
+        font-weight: bold;
+        opacity: 0.3;
+        position: absolute;
+        right: 20px;
+        top: 10px;
+    }
+
+    .challenge-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+
+    .challenge-description {
+        font-style: italic;
+        opacity: 0.9;
+        margin-bottom: 0;
+    }
+
+    .challenge-body {
+        padding: 2rem;
+    }
+
+    .challenge-question {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #1b5e3a;
+        margin-bottom: 1.5rem;
+    }
+
+    .answer-input-group {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .answer-input {
+        flex: 1;
+        min-width: 200px;
+        padding: 0.75rem;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        transition: border-color 0.3s ease;
+    }
+
+    .answer-input:focus {
+        outline: none;
+        border-color: #8cc63f;
+    }
+
+    .unit-label {
+        font-weight: 600;
+        color: #666;
+        white-space: nowrap;
+    }
+
+    .btn-submit {
+        background: #e30613;
+        color: white;
+        border: none;
+        padding: 0.75rem 2rem;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .btn-submit:hover {
+        background: #c40510;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(227, 6, 19, 0.3);
+    }
+
+    .feedback {
+        margin-top: 1rem;
+        padding: 1rem;
+        border-radius: 8px;
+        display: none;
+        animation: fadeIn 0.5s ease;
+    }
+
+    .feedback.success {
+        background: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
+        display: block;
+    }
+
+    .feedback.error {
+        background: #f8d7da;
+        border: 1px solid #f5c6cb;
+        color: #721c24;
+        display: block;
+    }
+
+    .feedback.info {
+        background: #d1ecf1;
+        border: 1px solid #bee5eb;
+        color: #0c5460;
+        display: block;
+    }
+
+    .progress-section {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+
+    .progress-bar-container {
+        background: #e0e0e0;
+        border-radius: 10px;
+        height: 30px;
+        overflow: hidden;
+        margin: 1rem 0;
+    }
+
+    .progress-bar-fill {
+        background: linear-gradient(90deg, #8cc63f 0%, #1b5e3a 100%);
+        height: 100%;
+        width: 0%;
+        transition: width 0.5s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .stat-card {
+        background: linear-gradient(135deg, #1b5e3a 0%, #8cc63f 100%);
+        color: white;
+        padding: 1rem;
+        border-radius: 10px;
+        text-align: center;
+    }
+
+    .stat-value {
+        font-size: 2rem;
+        font-weight: bold;
+    }
+
+    .stat-label {
+        font-size: 0.9rem;
+        opacity: 0.9;
+    }
+
+    .hint-box {
+        background: #fff3cd;
+        border-left: 4px solid #ffc107;
+        padding: 1rem;
+        margin-top: 1rem;
+        border-radius: 5px;
+        display: none;
+    }
+
+    .btn-hint {
+        background: transparent;
+        border: 2px solid #ffc107;
+        color: #856404;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 0.5rem;
+        font-weight: 600;
+    }
+
+    .btn-hint:hover {
+        background: #ffc107;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .celebration {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 3rem;
+        border-radius: 20px;
+        box-shadow: 0 10px 50px rgba(0,0,0,0.3);
+        text-align: center;
+        z-index: 9999;
+        display: none;
+    }
+
+    .celebration.show {
+        display: block;
+        animation: popIn 0.5s ease;
+    }
+
+    @keyframes popIn {
+        0% { transform: translate(-50%, -50%) scale(0); }
+        80% { transform: translate(-50%, -50%) scale(1.1); }
+        100% { transform: translate(-50%, -50%) scale(1); }
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 9998;
+        display: none;
+    }
+
+    .overlay.show {
+        display: block;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="quiz-container">
+        <!-- Cabeçalho -->
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold text-verde-escuro mb-3">
+                <i class="bi bi-trophy-fill text-verde-claro me-2"></i>
+                Desafios Técnicos
+            </h1>
+            <p class="lead text-muted">
+                Teste seus conhecimentos de usinagem e metrologia!
+            </p>
+        </div>
+
+        <!-- Barra de Progresso -->
+        <div class="progress-section">
+            <h3 class="text-verde-escuro mb-3">
+                <i class="bi bi-graph-up me-2"></i>Seu Progresso
+            </h3>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="progressBar">
+                    0%
+                </div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalChallenges">3</div>
+                    <div class="stat-label">Total de Desafios</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="completedChallenges">0</div>
+                    <div class="stat-label">Completados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="accuracyRate">0%</div>
+                    <div class="stat-label">Precisão</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Desafio 1 -->
+        <div class="challenge-card" data-challenge="1" data-min="118.09" data-max="227.61">
+            <div class="challenge-header">
+                <div class="challenge-number">01</div>
+                <div class="challenge-title">
+                    <i class="bi bi-rulers me-2"></i>Olhômetro Calibrado
+                </div>
+                <p class="challenge-description">
+                    "Sem régua, sem paquímetro, sem choro..."
+                </p>
+            </div>
+            <div class="challenge-body">
+                <p class="challenge-question">
+                    Qual é a distância do canal indicado na peça?
+                </p>
+                <div class="answer-input-group">
+                    <input type="number" 
+                           class="answer-input" 
+                           id="answer1" 
+                           placeholder="Digite sua resposta" 
+                           step="0.01"
+                           min="0"
+                           max="1000">
+                    <span class="unit-label">mm</span>
+                    <button class="btn-submit" onclick="checkAnswer(1)">
+                        <i class="bi bi-check-circle me-2"></i>Verificar
+                    </button>
+                </div>
+                <button class="btn-hint" onclick="toggleHint(1)">
+                    <i class="bi bi-lightbulb me-2"></i>Dica
+                </button>
+                <div class="hint-box" id="hint1">
+                    <strong>Dica:</strong> Observe cuidadosamente a escala da imagem. A distância está entre 100 e 250mm.
+                </div>
+                <div class="feedback" id="feedback1"></div>
+            </div>
+        </div>
+
+        <!-- Desafio 2 -->
+        <div class="challenge-card" data-challenge="2" data-min="1035" data-max="4590">
+            <div class="challenge-header">
+                <div class="challenge-number">02</div>
+                <div class="challenge-title">
+                    <i class="bi bi-box-seam me-2"></i>Mistério dos Cavacos
+                </div>
+                <p class="challenge-description">
+                    "Se não tem cavaco, não tem história..."
+                </p>
+            </div>
+            <div class="challenge-body">
+                <p class="challenge-question">
+                    Uma caixa de cavaco misteriosa apareceu. Ninguém viu nada. Todo mundo tem um palpite...<br><br>
+                    <strong>Estime a massa da caixa com cavacos:</strong>
+                </p>
+                <div class="answer-input-group">
+                    <input type="number" 
+                           class="answer-input" 
+                           id="answer2" 
+                           placeholder="Digite sua estimativa" 
+                           step="1"
+                           min="0"
+                           max="10000">
+                    <span class="unit-label">gramas</span>
+                    <button class="btn-submit" onclick="checkAnswer(2)">
+                        <i class="bi bi-check-circle me-2"></i>Verificar
+                    </button>
+                </div>
+                <div class="alert alert-info mt-3">
+                    <i class="bi bi-info-circle me-2"></i>
+                    <strong>Nota:</strong> A balança está calibrada e correta!
+                </div>
+                <button class="btn-hint" onclick="toggleHint(2)">
+                    <i class="bi bi-lightbulb me-2"></i>Dica
+                </button>
+                <div class="hint-box" id="hint2">
+                    <strong>Dica:</strong> Considere o volume aparente da caixa e a densidade dos cavacos de usinagem.
+                </div>
+                <div class="feedback" id="feedback2"></div>
+            </div>
+        </div>
+
+        <!-- Desafio 3 -->
+        <div class="challenge-card" data-challenge="3" data-min="40" data-max="183">
+            <div class="challenge-header">
+                <div class="challenge-number">03</div>
+                <div class="challenge-title">
+                    <i class="bi bi-search me-2"></i>CSI Jaraguá: Matador de Ferramenta!
+                </div>
+                <p class="challenge-description">
+                    "A caixa parece uma cena de crime: quebras, lascamentos, superaquecimento..."
+                </p>
+            </div>
+            <div class="challenge-body">
+                <p class="challenge-question">
+                    Você é o perito. Quantas unidades (inteiras ou não) de ferramentas estão na caixa?
+                </p>
+                <div class="answer-input-group">
+                    <input type="number" 
+                           class="answer-input" 
+                           id="answer3" 
+                           placeholder="Quantas ferramentas?" 
+                           step="0.1"
+                           min="0"
+                           max="500">
+                    <span class="unit-label">unidades</span>
+                    <button class="btn-submit" onclick="checkAnswer(3)">
+                        <i class="bi bi-check-circle me-2"></i>Verificar
+                    </button>
+                </div>
+                <button class="btn-hint" onclick="toggleHint(3)">
+                    <i class="bi bi-lightbulb me-2"></i>Dica
+                </button>
+                <div class="hint-box" id="hint3">
+                    <strong>Dica:</strong> Conte cuidadosamente todas as ferramentas, incluindo as quebradas e fragmentos significativos.
+                </div>
+                <div class="feedback" id="feedback3"></div>
+            </div>
+        </div>
+
+        <!-- Botão de Reset -->
+        <div class="text-center mt-5 mb-3">
+            <button class="btn btn-outline-secondary btn-lg" onclick="resetQuiz()">
+                <i class="bi bi-arrow-counterclockwise me-2"></i>Reiniciar Quiz
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Celebração -->
+<div class="overlay" id="overlay"></div>
+<div class="celebration" id="celebration">
+    <i class="bi bi-trophy-fill text-warning display-1 mb-3"></i>
+    <h2 class="text-verde-escuro mb-3">Parabéns!</h2>
+    <p class="lead">Você completou todos os desafios!</p>
+    <div class="mt-4">
+        <button class="btn btn-primary-custom btn-lg" onclick="closeCelebration()">
+            <i class="bi bi-check-lg me-2"></i>Fechar
+        </button>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Armazenar estado do quiz
+    let quizState = {
+        1: { completed: false, correct: false },
+        2: { completed: false, correct: false },
+        3: { completed: false, correct: false }
+    };
+
+    // Verificar resposta
+    function checkAnswer(challengeNum) {
+        const input = document.getElementById(`answer${challengeNum}`);
+        const feedback = document.getElementById(`feedback${challengeNum}`);
+        const card = document.querySelector(`[data-challenge="${challengeNum}"]`);
+        
+        const userAnswer = parseFloat(input.value);
+        const min = parseFloat(card.dataset.min);
+        const max = parseFloat(card.dataset.max);
+
+        if (isNaN(userAnswer)) {
+            feedback.className = 'feedback error';
+            feedback.innerHTML = '<i class="bi bi-exclamation-triangle-fill me-2"></i>Por favor, digite um valor válido!';
+            return;
+        }
+
+        // Verificar se está dentro da faixa
+        if (userAnswer >= min && userAnswer <= max) {
+            // Resposta correta!
+            feedback.className = 'feedback success';
+            feedback.innerHTML = `
+                <i class="bi bi-check-circle-fill me-2"></i>
+                <strong>Resposta Correta!</strong><br>
+                Sua resposta (${userAnswer.toFixed(2)}) está dentro da faixa aceitável 
+                (${min.toFixed(2)} a ${max.toFixed(2)}).
+            `;
+            
+            quizState[challengeNum].completed = true;
+            quizState[challengeNum].correct = true;
+            input.disabled = true;
+            input.classList.add('border-success');
+            
+            // Efeito visual no card
+            card.style.border = '3px solid #28a745';
+            
+        } else {
+            // Resposta incorreta
+            let message = '';
+            if (userAnswer < min) {
+                message = `Sua resposta está muito baixa. Tente um valor maior!`;
+            } else {
+                message = `Sua resposta está muito alta. Tente um valor menor!`;
+            }
+            
+            feedback.className = 'feedback error';
+            feedback.innerHTML = `
+                <i class="bi bi-x-circle-fill me-2"></i>
+                <strong>Quase lá!</strong><br>
+                ${message}<br>
+                <small>Faixa aceitável: ${min.toFixed(2)} a ${max.toFixed(2)}</small>
+            `;
+            
+            quizState[challengeNum].completed = true;
+            quizState[challengeNum].correct = false;
+            input.classList.add('border-danger');
+        }
+
+        updateProgress();
+        checkAllCompleted();
+    }
+
+    // Mostrar/esconder dica
+    function toggleHint(challengeNum) {
+        const hint = document.getElementById(`hint${challengeNum}`);
+        hint.style.display = hint.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // Atualizar barra de progresso
+    function updateProgress() {
+        const completed = Object.values(quizState).filter(s => s.completed).length;
+        const correct = Object.values(quizState).filter(s => s.correct).length;
+        const total = Object.keys(quizState).length;
+        
+        const percentage = Math.round((completed / total) * 100);
+        const accuracy = completed > 0 ? Math.round((correct / completed) * 100) : 0;
+        
+        document.getElementById('progressBar').style.width = percentage + '%';
+        document.getElementById('progressBar').textContent = percentage + '%';
+        document.getElementById('completedChallenges').textContent = completed;
+        document.getElementById('accuracyRate').textContent = accuracy + '%';
+    }
+
+    // Verificar se todos foram completados
+    function checkAllCompleted() {
+        const allCompleted = Object.values(quizState).every(s => s.completed);
+        const allCorrect = Object.values(quizState).every(s => s.correct);
+        
+        if (allCompleted && allCorrect) {
+            setTimeout(() => {
+                showCelebration();
+            }, 500);
+        }
+    }
+
+    // Mostrar celebração
+    function showCelebration() {
+        document.getElementById('overlay').classList.add('show');
+        document.getElementById('celebration').classList.add('show');
+        
+        // Efeito de confete (opcional)
+        createConfetti();
+    }
+
+    // Fechar celebração
+    function closeCelebration() {
+        document.getElementById('overlay').classList.remove('show');
+        document.getElementById('celebration').classList.remove('show');
+    }
+
+    // Resetar quiz
+    function resetQuiz() {
+        if (confirm('Deseja realmente reiniciar o quiz? Todo o progresso será perdido.')) {
+            // Resetar estado
+            quizState = {
+                1: { completed: false, correct: false },
+                2: { completed: false, correct: false },
+                3: { completed: false, correct: false }
+            };
+            
+            // Limpar inputs
+            for (let i = 1; i <= 3; i++) {
+                const input = document.getElementById(`answer${i}`);
+                const feedback = document.getElementById(`feedback${i}`);
+                const card = document.querySelector(`[data-challenge="${i}"]`);
+                const hint = document.getElementById(`hint${i}`);
+                
+                input.value = '';
+                input.disabled = false;
+                input.classList.remove('border-success', 'border-danger');
+                feedback.className = 'feedback';
+                feedback.innerHTML = '';
+                hint.style.display = 'none';
+                card.style.border = 'none';
+            }
+            
+            updateProgress();
+        }
+    }
+
+    // Efeito de confete simples
+    function createConfetti() {
+        const colors = ['#1b5e3a', '#8cc63f', '#e30613', '#ffc107', '#2196F3'];
+        
+        for (let i = 0; i < 50; i++) {
+            setTimeout(() => {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'fixed';
+                confetti.style.width = '10px';
+                confetti.style.height = '10px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = '-10px';
+                confetti.style.borderRadius = '50%';
+                confetti.style.zIndex = '10000';
+                confetti.style.pointerEvents = 'none';
+                document.body.appendChild(confetti);
+                
+                const duration = Math.random() * 3 + 2;
+                confetti.animate([
+                    { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+                    { transform: `translateY(100vh) rotate(${Math.random() * 720}deg)`, opacity: 0 }
+                ], {
+                    duration: duration * 1000,
+                    easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                }).onfinish = () => confetti.remove();
+            }, i * 50);
+        }
+    }
+
+    // Permitir pressionar Enter para enviar
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.answer-input').forEach(input => {
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    const challengeNum = this.id.replace('answer', '');
+                    checkAnswer(parseInt(challengeNum));
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
