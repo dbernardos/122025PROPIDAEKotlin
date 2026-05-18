@@ -3,7 +3,7 @@
   "short_name": "MeuApp",
   "description": "Aplicação Django como PWA",
   "start_url": "/",
-  "display": "standalone",
+  "display": "fullscreen",
   "background_color": "#ffffff",
   "theme_color": "#0A0302",
   "orientation": "any",

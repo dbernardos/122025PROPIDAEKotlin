@@ -1,67 +1,76 @@
 {% extends 'global/base.html' %}
 {% load static %}
 
-{% block title %}Início - XXIX Colóquio de Usinagem{% endblock %}
+{% block title %}
+  Início - XXIX Colóquio de Usinagem
+{% endblock %}
+
+{% block extra_script %}
+  <script>
+    if('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('service-worker.js')
+            .then(registration => {
+                console.log('Service Worker registrado com sucesso:', registration.scope);
+            })
+            .catch(error => {
+                console.log('Falha ao registrar Service Worker:', error);
+            });
+    } else {
+        console.log('Service Worker não é suportado neste navegador.');
+    }
+</script>
+{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="hero-section py-5">
+  <!-- Hero Section -->
+  <section class="hero-section py-5">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <h1 class="display-4 fw-bold text-verde-escuro mb-4">
-                    XXIX Colóquio de <span class="text-verde-claro">Usinagem</span>
-                </h1>
-                <p class="lead mb-4">
-                    O maior evento de usinagem do Brasil reunindo especialistas, 
-                    pesquisadores e profissionais da indústria.
-                </p>
-                <a href="#" class="btn btn-primary-custom btn-lg me-2">
-                    Inscreva-se Agora
-                </a>
-                <a href="#" class="btn btn-outline-secondary btn-lg">
-                    Ver Programação
-                </a>
-            </div>
-            <div class="col-lg-6 text-center">
-                <img src="{% static 'images/hero-image.jpg' %}" alt="Evento" class="img-fluid rounded shadow">
-            </div>
+      <div class="row align-items-center">
+        <div class="col-lg-6">
+          <h1 class="display-4 fw-bold text-verde-escuro mb-4">XXIX Colóquio de <span class="text-verde-claro">Usinagem</span></h1>
+          <p class="lead mb-4">O maior evento de usinagem do Brasil reunindo especialistas, pesquisadores e profissionais da indústria.</p>
+          <a href="#" class="btn btn-primary-custom btn-lg me-2">Inscreva-se Agora</a>
+          <a href="#" class="btn btn-outline-secondary btn-lg">Ver Programação</a>
         </div>
+        <div class="col-lg-6 text-center">
+          <img src="{% static 'images/hero-image.jpg' %}" alt="Evento" class="img-fluid rounded shadow" />
+        </div>
+      </div>
     </div>
-</section>
+  </section>
 
-<!-- Informações Principais -->
-<section class="py-5">
+  <!-- Informações Principais -->
+  <section class="py-5">
     <div class="container">
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="card card-custom h-100 p-4 text-center">
-                    <div class="card-body">
-                        <i class="bi bi-calendar-check text-verde-claro display-4 mb-3"></i>
-                        <h5 class="card-title">Data do Evento</h5>
-                        <p class="card-text">XX a XX de XXXXX de 2026</p>
-                    </div>
-                </div>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card card-custom h-100 p-4 text-center">
+            <div class="card-body">
+              <i class="bi bi-calendar-check text-verde-claro display-4 mb-3"></i>
+              <h5 class="card-title">Data do Evento</h5>
+              <p class="card-text">XX a XX de XXXXX de 2026</p>
             </div>
-            <div class="col-md-4">
-                <div class="card card-custom h-100 p-4 text-center">
-                    <div class="card-body">
-                        <i class="bi bi-geo-alt text-vermelho display-4 mb-3"></i>
-                        <h5 class="card-title">Local</h5>
-                        <p class="card-text">Nome do Local - Cidade/UF</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card card-custom h-100 p-4 text-center">
-                    <div class="card-body">
-                        <i class="bi bi-people text-verde-escuro display-4 mb-3"></i>
-                        <h5 class="card-title">Participantes</h5>
-                        <p class="card-text">Junte-se a centenas de profissionais</p>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+        <div class="col-md-4">
+          <div class="card card-custom h-100 p-4 text-center">
+            <div class="card-body">
+              <i class="bi bi-geo-alt text-vermelho display-4 mb-3"></i>
+              <h5 class="card-title">Local</h5>
+              <p class="card-text">Nome do Local - Cidade/UF</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card card-custom h-100 p-4 text-center">
+            <div class="card-body">
+              <i class="bi bi-people text-verde-escuro display-4 mb-3"></i>
+              <h5 class="card-title">Participantes</h5>
+              <p class="card-text">Junte-se a centenas de profissionais</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-</section>
+  </section>
 {% endblock %}
