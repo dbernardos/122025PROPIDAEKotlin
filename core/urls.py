@@ -1,7 +1,9 @@
 from django.urls import path
 from django.conf.urls.static import static
 from django.http import HttpResponse
+from django.views.generic import TemplateView
 from django.conf import settings
+
 from . import views
 
 from django.views.decorators.cache import cache_control
@@ -23,14 +25,18 @@ urlpatterns = [
 
     # Service Worker e Manifest PWA
     path('service-worker.js', service_worker, name='service_worker'),
-    path('manifest.json', 
-         cache_control(no_cache=True)(
-             lambda r: HttpResponse(
-                 open('manifest.json').read(), 
-                 content_type="application/json"
-             )
-         ), 
-         name='manifest'),
+
+
+    path('manifest.json', TemplateView.as_view(template_name="manifest.json", content_type='application/manifest+json')),
+    path('service-worker.js', TemplateView.as_view(template_name="service-worker.js", content_type='application/javascript'), name="service-worker"),  
+    
+    # path('manifest.json', 
+     #    cache_control(no_cache=True)(
+     #        lambda r: HttpResponse(
+    #             open('manifest.json').read(), 
+    #             content_type="application/json"
+    #         )
+    #     ), )
 ]
 
 
