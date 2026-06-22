@@ -11,6 +11,7 @@ import json
 
 def leitor_qrcode(request):
     return render(request, 'leitor_qrcode.html')
+    #return render(request, 'leitor_qrcode_copy.html')
 
 def get_client_ip(request):
     """Obtém o IP do cliente"""

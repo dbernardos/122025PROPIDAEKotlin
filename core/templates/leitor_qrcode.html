@@ -5,17 +5,12 @@
   Início - XXIX Colóquio de Usinagem
 {% endblock %}
 
-{% block extra_script %}
-  <script>
-    const resultadoDiv = document.getElementById('resultado')
-    let processando = false
-    
+{% block pre_script %}
 
-    <link rel="manifest" href="manifest.json" crossorigin="use-credentials"/> 
-    <script src="https://unpkg.com/html5-qrcode"></script>
+  <link rel="manifest" href="manifest.json" crossorigin="use-credentials"/> 
+  <script src="https://unpkg.com/html5-qrcode"></script>
 
-  </script>
-  <script>
+  <script>  
     if('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/service-worker.js')
                 .then(registration => {
@@ -25,7 +20,53 @@
                     console.log('Falha ao registrar Service Worker:', error);
                 });
     }
-    
+
+  </script>
+
+
+{% endblock %}
+
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/qrcode.css' %} ">
+{% endblock %}
+
+
+{% block content %}
+  <div>
+    <nav class="navbar">
+      <div>
+        <!--<h1>Evento IFSC</h1>-->
+      </div>
+    </nav>
+  </div>
+  <div>
+    <main class="principal">
+      <div>
+        <h2>Leitor</h2>
+        <div id="reader"></div>
+        <div id="resultado">Aguardando QR Code...</div>
+      </div>
+
+      <div>
+        <button class="button-quiz">Ir para o Quiz</button>
+      </div>
+    </main>
+  </div>
+  <div>
+    <footer class="rodape">
+      <div>
+        
+      </div>
+    </footer>
+  </div>
+{% endblock %}
+
+
+{% block extra_script %}
+  <script>
+    const resultadoDiv = document.getElementById('resultado')
+    let processando = false
 
     async function validarNoServidor(codigoLido) {
       // processando = true;
@@ -101,35 +142,5 @@
         console.error('Erro na câmera: ', err)
         resultadoDiv.textContent = 'Erro ao ligar a câmera.'
       })
-    </script>
-{% endblock %}
-
-{% block content %}
-  <div>
-    <nav class="navbar">
-      <div>
-        <h1>Evento IFSC</h1>
-      </div>
-    </nav>
-  </div>
-  <div>
-    <main class="principal">
-      <div>
-        <h2>Leitor</h2>
-        <div id="reader"></div>
-        <div id="resultado">Aguardando QR Code...</div>
-      </div>
-
-      <div>
-        <button class="button-quiz">Ir para o Quiz</button>
-      </div>
-    </main>
-  </div>
-  <div>
-    <footer class="rodape">
-      <div>
-        <h3>Patrocinadores</h3>
-      </div>
-    </footer>
-  </div>
+  </script>
 {% endblock %}
